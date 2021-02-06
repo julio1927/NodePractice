@@ -1,9 +1,6 @@
 const fs = require("fs");
 
-const getNotes = function () {
-  return "Your notes ...";
-};
-
+//Adding Note Function
 const addNote = function (title, body) {
   const notes = loadNotes();
 
@@ -24,6 +21,20 @@ const addNote = function (title, body) {
   }
 };
 
+//Removing Notes Function
+const removeNote = function (title) {
+  const notes = loadNotes();
+
+  //check to see if note title given matches title in notes array
+  const notesToSave = notes.filter(function (note) {
+    return note.title !== title;
+  });
+  
+  saveNotes(notesToSave);
+  console.log("Note Removed");
+};
+
+// Saving Note Function
 const saveNotes = function (notes) {
   // Taking notes array and saving it as JSON
   const notesJSON = JSON.stringify(notes);
@@ -32,6 +43,7 @@ const saveNotes = function (notes) {
   fs.writeFileSync("notes.json", notesJSON);
 };
 
+//Loading Notes Function
 const loadNotes = function () {
   try {
     const fileBuffer = fs.readFileSync("notes.json");
@@ -44,6 +56,6 @@ const loadNotes = function () {
 };
 
 module.exports = {
-  getNotes: getNotes,
   addNote: addNote,
+  removeNote: removeNote,
 };
